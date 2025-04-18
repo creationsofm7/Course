@@ -7,7 +7,7 @@ import { createTestCourse } from "@/app/actions/actions";
 import { useRouter } from "next/navigation";
 import { SendHorizonal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+// import Link from "next/link";
 
 export default function Chat() {
   const [input, setInput] = useState("");
