@@ -189,7 +189,7 @@ export async function generate(input: string) {
 
   (async () => {
     const { partialObjectStream } = streamObject({
-      model: openai('gpt-4o-mini'),
+      model: openai('gpt-4.1-mini'),
       system: 'You generate course content with modules and lessons based on the user input. you never create empty modules or lessons',
       prompt: input,
       schema: courseSchema,
