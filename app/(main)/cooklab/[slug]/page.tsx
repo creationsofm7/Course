@@ -148,9 +148,9 @@ export default function Lab() {
                         </h3>
                       </div>
                     ) : !activeLesson.contenturl ? (
-                      <div className="flex flex-col items-center justify-center h-full w-full p-4 bg-gradient-to-br from-slate-50 to-gray-100">
+                      <div className="flex  flex-col items-center justify-center h-full w-full p-4 bg-gradient-to-br from-slate-50 to-gray-100">
                         <form
-                          className="flex flex-col gap-5 w-full max-w-md p-8 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl border border-gray-800/30 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]"
+                          className={`${isOpen ? `md:hidden` : `md:block`} lg:block flex z-10 flex-col gap-5 w-full max-w-md p-8 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl border border-gray-800/30 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]`}
                           action={async (FormData: FormData) => {
                             const videoId = FormData.get("videoId") as string;
                             if (videoId) {
@@ -182,7 +182,7 @@ export default function Lab() {
                               Search for this topic on Google
                             </Link>
 
-                          <div className="flex flex-col sm:flex-row gap-3 w-full">
+                          <div className="flex flex-col sm:flex-row gap-3 w-full ">
                             <input
                               type="text"
                               name="videoId"
@@ -298,7 +298,7 @@ function CourseList(course: Course) {
 
       {/* Sidebar */}
       <div
-        className={`fixed right-0 overflow-y-auto top-14 h-[calc(100vh-4rem)] bg-white shadow-lg transition-all duration-300 ease-in-out ${
+        className={`fixed right-0 overflow-y-auto top-14 h-[calc(100vh-4rem)] bg-white z-100 shadow-lg transition-all duration-300 ease-in-out ${
           isOpen ? "w-[95%] sm:w-4/5 md:w-3/5 lg:w-2/5 xl:w-3/12" : "w-0 opacity-0"
         }`}
       >

@@ -30,16 +30,16 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="md:w-1/2 flex justify-center">
-          <div className="relative w-full max-w-md h-80">
-            <div className="absolute inset-0 bg-indigo-600 rounded-2xl transform rotate-3"></div>
-            <div className="absolute inset-0 bg-white rounded-2xl shadow-xl flex items-center justify-center p-6">
-              <div className="text-center space-y-4">
-                <div className="bg-indigo-100 h-40 rounded-lg flex items-center justify-center">
-                  <span className="text-indigo-600 text-5xl font-bold">AI</span>
-                </div>
-                <h3 className="text-xl font-semibold">Powered Learning</h3>
-                <p className="text-gray-600">Adaptive courses that evolve with your progress</p>
+        <div className="md:w-1/2 flex justify-center w-full">
+          <div className="relative w-full max-w-md h-64 sm:h-80">
+            <div className="absolute inset-0 bg-indigo-600 rounded-2xl transform rotate-3 hidden sm:block"></div>
+            <div className="absolute inset-0 bg-white rounded-2xl shadow-xl flex items-center justify-center p-4 sm:p-6">
+              <div className="text-center space-y-3 sm:space-y-4">
+          <div className="bg-indigo-100 h-32 sm:h-40 rounded-lg flex items-center justify-center">
+            <span className="text-indigo-600 text-4xl sm:text-5xl font-bold">AI</span>
+          </div>
+          <h3 className="text-lg sm:text-xl font-semibold">Powered Learning</h3>
+          <p className="text-gray-600 text-sm sm:text-base">Adaptive courses that evolve with your progress</p>
               </div>
             </div>
           </div>
