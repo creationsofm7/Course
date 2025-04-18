@@ -150,7 +150,7 @@ export default function Lab() {
                     ) : !activeLesson.contenturl ? (
                       <div className="flex  flex-col items-center justify-center h-full w-full p-4 bg-gradient-to-br from-slate-50 to-gray-100">
                         <form
-                          className={`${isOpen ? `md:hidden` : `md:block`} lg:block flex z-10 flex-col gap-5 w-full max-w-md p-8 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl border border-gray-800/30 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]`}
+                          className={`${isOpen ? `md:hidden` : `md:flex`} lg:flex flex z-10 flex-col gap-5 w-full max-w-md p-8 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl border border-gray-800/30 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]`}
                           action={async (FormData: FormData) => {
                             const videoId = FormData.get("videoId") as string;
                             if (videoId) {
@@ -162,7 +162,7 @@ export default function Lab() {
                             }
                           }}
                         >
-                          <h3 className="text-white text-xl font-semibold mb-1 tracking-tight">
+                          <h3 className="text-white flex flex-col text-xl font-semibold mb-1 tracking-tight">
                             Add YouTube Video for <span className="text-blue-400 font-bold">{activeLesson.name}</span>
                           </h3>
                             <Link 
