@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { generate } from '../../actions/actions';
+import { generate } from '../../edgeactions/actions'; // Adjust the import path as necessary
 import { createTestCourse } from "@/app/actions/actions"; // Add this import
 import { readStreamableValue } from 'ai/rsc';
 import { useRouter } from "next/navigation"; // Add router import
@@ -20,9 +20,7 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 
-export const runtime = "edge";
-export const preferredRegion = 'home'
-export const maxDuration = 60
+
 
 interface Course {
   name: string;
