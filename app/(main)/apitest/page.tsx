@@ -23,6 +23,12 @@ import {
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 60;
 
+interface Course {
+  name: string;
+  description: string;
+  modules: Module[];
+}
+
 interface Module {
   name: string;
   lessons: Lesson[];
@@ -35,7 +41,7 @@ interface Lesson {
 }
 
 export default function Home() {
-  const [generation, setGeneration] = useState<any>(null);
+  const [generation, setGeneration] = useState<Course | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false); 
   const [prompt, setPrompt] = useState('Create a course about JavaScript fundamentals');
@@ -99,12 +105,12 @@ export default function Home() {
   const renderCourseStructure = () => (
     <div className="space-y-4">
       <div className="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">{generation.name}</h2>
-        <p className="text-gray-700">{generation.description}</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">{generation?.name}</h2>
+        <p className="text-gray-700">{generation?.description}</p>
       </div>
       
       <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Course Modules</h3>
-      {generation.modules && generation.modules.map((module : Module, index: number) => (
+      {generation?.modules && generation.modules.map((module : Module, index: number) => (
         <Accordion 
           key={index} 
           type="single" 
