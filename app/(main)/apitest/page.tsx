@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 
 export const preferredRegion = 'home'
-export const maxDuration = 300
+export const maxDuration = 60
 
 interface Course {
   name: string;
