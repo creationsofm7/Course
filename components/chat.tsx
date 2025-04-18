@@ -68,11 +68,11 @@ export default function Chat() {
       </form>
 
       <h2 className="mb-2 mt-2 text-black dark:text-white text-sm font-medium">OR</h2>
-      <Link href="/create-course">
+      
         <Button disabled className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold shadow-md transition-all duration-300 hover:shadow-lg border border-blue-500 hover:scale-105">
           Create an Empty Course
         </Button>
-      </Link>
+      
 
       {/* <div className="space-y-4">
         {outputs.map((output, index) => (
