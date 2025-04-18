@@ -22,7 +22,7 @@ import {
 
 export const runtime = 'edge'
 export const preferredRegion = 'home'
-export const maxDuration = 60
+export const maxDuration = 300
 
 interface Course {
   name: string;
@@ -228,7 +228,7 @@ export default function Home() {
       {!isLoading && !generation && (
         <div className="flex flex-col items-center justify-center h-64 text-center border border-muted rounded-lg p-4">
           <p className="text-gray-500 mb-4">
-            Enter a topic and click `&quot;`Generate Course Structure`&quot;` to create a course outline
+            Enter a topic and click &quot;Generate Course Structure&quot; to create a course outline
           </p>
         </div>
       )}
