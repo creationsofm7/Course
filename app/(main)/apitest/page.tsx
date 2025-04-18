@@ -20,7 +20,7 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 export const preferredRegion = 'home'
 export const maxDuration = 60
 
