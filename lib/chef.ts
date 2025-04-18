@@ -25,7 +25,7 @@ const courseSchema = z.object({
 export async function runAgent(userInput: string) {
   const chatModel = new ChatOpenAI({
     openAIApiKey: process.env.OPENAI_API_KEY,
-    modelName: "gpt-4o-mini",
+    modelName: "gpt-4.1-mini",
     temperature: 1,
     maxTokens: 1571,
     topP: 1,

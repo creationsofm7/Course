@@ -18,6 +18,7 @@ interface Lesson {
   name: string;
   description: string | null;
   contenturl: string | null;
+  searchterm? : string | null
 }
 
 interface Module {
@@ -40,13 +41,15 @@ interface ActiveLessonData {
   name: string;
   contenturl: string;
   lesson_description?: string;
+  search_term : string;
+  
 }
 
 const LessonContext = createContext<{
   activeLesson: ActiveLessonData;
   setActiveLesson: (lessonData: ActiveLessonData) => void;
 }>({
-  activeLesson: { name: "", contenturl: "", id: "" },
+  activeLesson: { name: "", contenturl: "", id: "", search_term: ""},
   setActiveLesson: () => {},
 });
 
@@ -76,6 +79,7 @@ export default function Lab() {
     name: "",
     contenturl: "",
     lesson_description: "",
+    search_term: " "
   });
 
   const [course, setCourse] = useState<Course>({
@@ -98,6 +102,7 @@ export default function Lab() {
           description: module.description || "",
           lessons: module.lessons?.map(lesson => ({
             ...lesson,
+            searchterm: lesson.searchterm || "",
             description: lesson.description || "",
             contenturl: lesson.contenturl || ""
           }))
@@ -157,9 +162,25 @@ export default function Lab() {
                             }
                           }}
                         >
-                          <h3 className="text-white text-xl font-semibold mb-3 tracking-tight">
+                          <h3 className="text-white text-xl font-semibold mb-1 tracking-tight">
                             Add YouTube Video for <span className="text-blue-400 font-bold">{activeLesson.name}</span>
                           </h3>
+                            <Link 
+                              href={`https://www.youtube.com/results?search_query=${activeLesson.search_term}`} 
+                              className="text-blue-400 text-sm mb-1 hover:underline"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Search for this topic on youtube
+                            </Link>
+                            <Link 
+                              href={`https://www.google.com/search?q=${activeLesson.search_term}`} 
+                              className="text-blue-400 text-sm mb-1 hover:underline"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Search for this topic on Google
+                            </Link>
 
                           <div className="flex flex-col sm:flex-row gap-3 w-full">
                             <input
@@ -349,6 +370,7 @@ function CourseList(course: Course) {
                                         name: lesson.name,
                                         contenturl: lesson.contenturl || "",
                                         lesson_description: lesson.description || "",
+                                        search_term: lesson.searchterm || "",
                                       });
                                     }}
                                     className="mt-2 inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
