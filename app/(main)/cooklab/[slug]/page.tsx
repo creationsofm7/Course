@@ -150,7 +150,9 @@ export default function Lab() {
                     ) : !activeLesson.contenturl ? (
                       <div className="flex  flex-col items-center justify-center h-full w-full p-4 bg-gradient-to-br from-slate-50 to-gray-100">
                         <form
-                          className={`${isOpen ? `md:hidden` : `md:flex`} lg:flex flex z-10 flex-col gap-5 w-full max-w-md p-8 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl border border-gray-800/30 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01]`}
+                          className={`flex flex-col gap-5 w-full max-w-md p-8 bg-gradient-to-br from-gray-900 to-black rounded-xl shadow-2xl border border-gray-800/30 transform transition-all duration-300 hover:shadow-xl hover:scale-[1.01] ${
+                            isOpen ? "hidden sm:hidden md:hidden lg:flex" : "block sm:block md:hidden lg:flex"
+                          }`}
                           action={async (FormData: FormData) => {
                             const videoId = FormData.get("videoId") as string;
                             if (videoId) {
@@ -165,30 +167,25 @@ export default function Lab() {
                           <h3 className="text-white flex flex-col text-xl font-semibold mb-1 tracking-tight">
                             Add YouTube Video for <span className="text-blue-400 font-bold">{activeLesson.name}</span>
                           </h3>
-                            <Link 
-                              href={`https://www.youtube.com/results?search_query=${activeLesson.search_term}`} 
-                              className="text-blue-400 text-sm mb-1 hover:underline"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Search for this topic on youtube
-                            </Link>
-                            <Link 
-                              href={`https://www.google.com/search?q=${activeLesson.search_term}`} 
-                              className="text-blue-400 text-sm mb-1 hover:underline"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Search for this topic on Google
-                            </Link>
+                          <Link 
+                            href={`https://www.youtube.com/results?search_query=${activeLesson.search_term}`} 
+                            className="text-blue-400 text-sm mb-1 hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Search for this topic on youtube
+                          </Link>
+                          <Link 
+                            href={`https://www.google.com/search?q=${activeLesson.search_term}`} 
+                            className="text-blue-400 text-sm mb-1 hover:underline"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Search for this topic on Google
+                          </Link>
 
                           <div className="flex flex-col sm:flex-row gap-3 w-full ">
-                            <input
-                              type="text"
-                              name="videoId"
-                              className="flex-1 p-4 rounded-lg border border-gray-700/50 bg-gray-800/80 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-inner outline-none"
-                              placeholder="Enter YouTube video ID (e.g., dQw4w9WgXcQ)"
-                            />
+                           
                             <button
                               type="submit"
                               className="px-5 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-900 focus:outline-none"
