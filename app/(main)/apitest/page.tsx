@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { generate } from '../../actions/generate';
+import { generate } from '../../actions/actions';
 import { createTestCourse } from "@/app/actions/actions"; // Add this import
 import { readStreamableValue } from 'ai/rsc';
 import { useRouter } from "next/navigation"; // Add router import
@@ -20,8 +20,9 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 
-// export const preferredRegion = 'home'
-// export const maxDuration = 60
+export const runtime = "node";
+export const preferredRegion = 'home'
+export const maxDuration = 60
 
 interface Course {
   name: string;
