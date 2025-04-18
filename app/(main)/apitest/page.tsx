@@ -1,26 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { generate } from '../../edgeactions/actions'; // Adjust the import path as necessary
-import { createTestCourse } from "@/app/actions/actions"; // Add this import
-import { readStreamableValue } from 'ai/rsc';
+import { useState, useRef, useEffect } from "react";
+import { generate } from "../../actions/actions"; 
+import { readStreamableValue } from "ai/rsc";
 import { useRouter } from "next/navigation"; // Add router import
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Loader2 } from "lucide-react";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
   DialogTitle,
-  DialogDescription
+  DialogDescription,
 } from "@/components/ui/dialog";
-
-
+import axios from "axios"; // Import axios for API calls
 
 interface Course {
   name: string;
@@ -39,15 +37,21 @@ interface Lesson {
   searchterm?: string;
 }
 
+export const runtime = "edge"; // Set runtime to edge for serverless functions
+export const preferredRegion = 'home'
+export const max_duration = 60; // Set max duration for serverless functions
+
 export default function Home() {
   const [generation, setGeneration] = useState<Course | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false); 
-  const [prompt, setPrompt] = useState('Create a course about JavaScript fundamentals');
-  const [error, setError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [prompt, setPrompt] = useState(
+    "Create a course about JavaScript fundamentals"
+  );
+  const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
-  const modalContentRef = useRef<HTMLDivElement>(null); // Add ref for modal content
+  const modalContentRef = useRef<HTMLDivElement>(null);
 
   // Effect to auto-scroll the modal content when generation updates
   useEffect(() => {
@@ -55,7 +59,7 @@ export default function Home() {
       modalContentRef.current.scrollTop = modalContentRef.current.scrollHeight;
     }
   }, [generation]);
-  
+
   // Effect to scroll back to top when generation is complete
   useEffect(() => {
     if (!isLoading && isSaving && modalContentRef.current) {
@@ -67,11 +71,11 @@ export default function Home() {
     try {
       setIsLoading(true);
       setGeneration(null);
-      setError('');
+      setError("");
       setModalOpen(true); // Open the modal when generation starts
-      
+
       const { object } = await generate(prompt);
-      
+
       let finalObject = null;
       for await (const partialObject of readStreamableValue(object)) {
         if (partialObject) {
@@ -79,22 +83,27 @@ export default function Home() {
           finalObject = partialObject;
         }
       }
-      
+
       // Once streaming is complete, save to database and redirect
       if (finalObject) {
         try {
           setIsSaving(true); // Set saving state to true
-          const course = await createTestCourse(finalObject);
+          const response = await axios.post(
+            "/api/createcourseapi",
+            finalObject
+          );
+          const course = response.data;
+          router.push(`/cooklab/${course.id}`);
           router.push(`/cooklab/${course.id}`);
         } catch (dbError) {
           console.error("Database Error:", dbError);
-          setError('Failed to save course to database. Please try again.');
+          setError("Failed to save course to database. Please try again.");
           setIsSaving(false); // Reset saving state on error
         }
       }
     } catch (err) {
-      console.error('Error generating content:', err);
-      setError('Failed to generate course content. Please try again.');
+      console.error("Error generating content:", err);
+      setError("Failed to generate course content. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -104,49 +113,63 @@ export default function Home() {
   const renderCourseStructure = () => (
     <div className="space-y-4">
       <div className="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">{generation?.name}</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          {generation?.name}
+        </h2>
         <p className="text-gray-700">{generation?.description}</p>
       </div>
-      
-      <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">Course Modules</h3>
-      {generation?.modules && generation.modules.map((module : Module, index: number) => (
-        <Accordion 
-          key={index} 
-          type="single" 
-          collapsible
-          defaultValue={index === 0 ? `module-${index}` : undefined}
-          className="border border-muted rounded-lg mb-4"
-        >
-          <AccordionItem value={`module-${index}`} className="border-0">
-            <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 text-lg font-medium">
-              Module {index + 1}: {module.name}
-            </AccordionTrigger>
-            <AccordionContent className="bg-background/80">
-              <div className="px-4 pb-3">
-                <h4 className="font-medium text-gray-700 mb-2">Lessons:</h4>
-                <ul className="space-y-3">
-                  {module.lessons && module.lessons.map((lesson : Lesson, lessonIndex : number) => (
-                    <li key={lessonIndex} className="bg-white p-3 rounded-md border border-gray-100 shadow-sm">
-                      <h5 className="font-medium text-gray-900">{lesson.name}</h5>
-                      {lesson.description && (
-                        <p className="text-gray-600 text-sm mt-1">{lesson.description}</p>
-                      )}
-                      {lesson.searchterm && (
-                        <div className="mt-2">
-                          <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                            {lesson.searchterm}
-                          </span>
-                        </div>
-                      )}
-                    </li>
-                  ))}
 
-                </ul>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      ))}
+      <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">
+        Course Modules
+      </h3>
+      {generation?.modules &&
+        generation.modules.map((module: Module, index: number) => (
+          <Accordion
+            key={index}
+            type="single"
+            collapsible
+            defaultValue={index === 0 ? `module-${index}` : undefined}
+            className="border border-muted rounded-lg mb-4"
+          >
+            <AccordionItem value={`module-${index}`} className="border-0">
+              <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 text-lg font-medium">
+                Module {index + 1}: {module.name}
+              </AccordionTrigger>
+              <AccordionContent className="bg-background/80">
+                <div className="px-4 pb-3">
+                  <h4 className="font-medium text-gray-700 mb-2">Lessons:</h4>
+                  <ul className="space-y-3">
+                    {module.lessons &&
+                      module.lessons.map(
+                        (lesson: Lesson, lessonIndex: number) => (
+                          <li
+                            key={lessonIndex}
+                            className="bg-white p-3 rounded-md border border-gray-100 shadow-sm"
+                          >
+                            <h5 className="font-medium text-gray-900">
+                              {lesson.name}
+                            </h5>
+                            {lesson.description && (
+                              <p className="text-gray-600 text-sm mt-1">
+                                {lesson.description}
+                              </p>
+                            )}
+                            {lesson.searchterm && (
+                              <div className="mt-2">
+                                <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                                  {lesson.searchterm}
+                                </span>
+                              </div>
+                            )}
+                          </li>
+                        )
+                      )}
+                  </ul>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ))}
     </div>
   );
 
@@ -155,7 +178,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-pink-600 text-transparent bg-clip-text">
         Course Generator
       </h1>
-      
+
       <div className="mb-6">
         <div className="flex flex-col gap-3">
           <div className="relative">
@@ -166,7 +189,7 @@ export default function Home() {
               placeholder="Enter a topic to generate a course structure..."
             />
           </div>
-          
+
           <button
             onClick={handleGenerate}
             disabled={isLoading || !prompt.trim()}
@@ -178,7 +201,7 @@ export default function Home() {
                 Generating Course...
               </>
             ) : (
-              'Generate Course Structure'
+              "Generate Course Structure"
             )}
           </button>
         </div>
@@ -192,41 +215,49 @@ export default function Home() {
 
       {/* Modal for streaming course generation - add ref to DialogContent */}
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" ref={modalContentRef}>
+        <DialogContent
+          className="max-w-3xl max-h-[90vh] overflow-y-auto"
+          ref={modalContentRef}
+        >
           <DialogHeader>
             <DialogTitle>
               {generation ? generation.name : "Generating Course Structure"}
             </DialogTitle>
             <DialogDescription>
-              {isLoading ? "Creating your custom course..." : 
-               isSaving ? "Saving course to your library..." : 
-               "Your custom course structure is ready"}
+              {isLoading
+                ? "Creating your custom course..."
+                : isSaving
+                ? "Saving course to your library..."
+                : "Your custom course structure is ready"}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="mt-4">
             {isLoading && !generation && (
               <div className="flex justify-center items-center h-32">
                 <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
               </div>
             )}
-            
+
             {isSaving && generation && (
               <div className="flex justify-center items-center py-3 bg-amber-50 rounded-lg mb-4">
                 <Loader2 className="h-5 w-5 animate-spin text-amber-600 mr-2" />
-                <span className="text-amber-700">Saving your course to the database...</span>
+                <span className="text-amber-700">
+                  Saving your course to the database...
+                </span>
               </div>
             )}
-            
+
             {generation && renderCourseStructure()}
           </div>
         </DialogContent>
       </Dialog>
-      
+
       {!isLoading && !generation && (
         <div className="flex flex-col items-center justify-center h-64 text-center border border-muted rounded-lg p-4">
           <p className="text-gray-500 mb-4">
-            Enter a topic and click &quot;Generate Course Structure&quot; to create a course outline
+            Enter a topic and click &quot;Generate Course Structure&quot; to
+            create a course outline
           </p>
         </div>
       )}
