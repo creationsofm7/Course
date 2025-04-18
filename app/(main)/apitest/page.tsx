@@ -38,8 +38,9 @@ interface Lesson {
 }
 
 export const runtime = "edge"; // Set runtime to edge for serverless functions
-export const preferredRegion = 'home'
-export const max_duration = 60; // Set max duration for serverless functions
+export const preferredRegion = 'home';
+export const maxDuration = 60;
+
 
 export default function Home() {
   const [generation, setGeneration] = useState<Course | null>(null);
