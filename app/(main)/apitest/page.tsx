@@ -94,7 +94,6 @@ export default function Home() {
           );
           const course = response.data;
           router.push(`/cooklab/${course.id}`);
-          router.push(`/cooklab/${course.id}`);
         } catch (dbError) {
           console.error("Database Error:", dbError);
           setError("Failed to save course to database. Please try again.");
