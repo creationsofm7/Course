@@ -1,3 +1,5 @@
+"use server";
+
 import { streamObject } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { createStreamableValue } from 'ai/rsc';
