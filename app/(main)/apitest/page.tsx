@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 
 // Allow streaming responses up to 30 seconds
-export const maxDuration = 60;
+export const maxDuration = 9;
 
 interface Course {
   name: string;
