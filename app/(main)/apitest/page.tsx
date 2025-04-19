@@ -18,7 +18,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import axios from "axios"; // Import axios for API calls
+import axios from "axios";
+import { SendHorizonal } from "lucide-react";
 
 interface Course {
   name: string;
@@ -47,13 +48,31 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [prompt, setPrompt] = useState(
-    "Create a course about JavaScript fundamentals"
+    ""
   );
   const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
   const modalContentRef = useRef<HTMLDivElement>(null);
+  const [cpholder, setCpholder] = useState<string>("Create a course on Control Systems");
 
+
+  const placeholders = [
+    "Create a course on AI in Healthcare",
+    "Generate a course outline for Web Development",
+    "Design a course on Data Science and Machine Learning",
+    "Outline a course on Digital Marketing Strategies",
+    "Create a course on Blockchain Technology",
+  ];
+
+  useEffect(() => {
+    let current = 0;
+    const interval = setInterval(() => {
+      setCpholder(placeholders[current]);
+      current = (current + 1) % placeholders.length;
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [placeholders]);
   // Effect to auto-scroll the modal content when generation updates
   useEffect(() => {
     if (modalContentRef.current && generation) {
@@ -63,8 +82,13 @@ export default function Home() {
 
   // Effect to scroll back to top when generation is complete
   useEffect(() => {
-    if (!isLoading && isSaving && modalContentRef.current) {
-      modalContentRef.current.scrollTop = 0;
+    if (!isLoading && isSaving) {
+      // Use setTimeout to ensure DOM updates before scrolling
+      setTimeout(() => {
+        if (modalContentRef.current) {
+          modalContentRef.current.scrollTop = 0;
+        }
+      }, 0);
     }
   }, [isLoading, isSaving]);
 
@@ -124,74 +148,70 @@ export default function Home() {
       </h3>
       {generation?.modules &&
         generation.modules.map((module: Module, index: number) => (
-          <Accordion
+            <Accordion
             key={index}
-            type="single"
-            collapsible
-            defaultValue={index === 0 ? `module-${index}` : undefined}
+            type="multiple" // Changed to multiple to allow multiple items open
+            defaultValue={[`module-${index}`]} // Set default value as array with current module
             className="border border-muted rounded-lg mb-4"
-          >
+            >
             <AccordionItem value={`module-${index}`} className="border-0">
               <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 text-lg font-medium">
-                Module {index + 1}: {module.name}
+              Module {index + 1}: {module.name}
               </AccordionTrigger>
               <AccordionContent className="bg-background/80">
-                <div className="px-4 pb-3">
-                  <h4 className="font-medium text-gray-700 mb-2">Lessons:</h4>
-                  <ul className="space-y-3">
-                    {module.lessons &&
-                      module.lessons.map(
-                        (lesson: Lesson, lessonIndex: number) => (
-                          <li
-                            key={lessonIndex}
-                            className="bg-white p-3 rounded-md border border-gray-100 shadow-sm"
-                          >
-                            <h5 className="font-medium text-gray-900">
-                              {lesson.name}
-                            </h5>
-                            {lesson.description && (
-                              <p className="text-gray-600 text-sm mt-1">
-                                {lesson.description}
-                              </p>
-                            )}
-                            {lesson.searchterm && (
-                              <div className="mt-2">
-                                <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                                  {lesson.searchterm}
-                                </span>
-                              </div>
-                            )}
-                          </li>
-                        )
-                      )}
-                  </ul>
-                </div>
+              <div className="px-4 pb-3">
+                <h4 className="font-medium text-gray-700 mb-2">Lessons:</h4>
+                <ul className="space-y-3">
+                {module.lessons &&
+                  module.lessons.map(
+                  (lesson: Lesson, lessonIndex: number) => (
+                    <li
+                    key={lessonIndex}
+                    className="bg-white p-3 rounded-md border border-gray-100 shadow-sm"
+                    >
+                    <h5 className="font-medium text-gray-900">
+                      {lesson.name}
+                    </h5>
+                    {lesson.description && (
+                      <p className="text-gray-600 text-sm mt-1">
+                      {lesson.description}
+                      </p>
+                    )}
+                    {lesson.searchterm && (
+                      <div className="mt-2">
+                      <span className="text-xs font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                        {lesson.searchterm}
+                      </span>
+                      </div>
+                    )}
+                    </li>
+                  )
+                  )}
+                </ul>
+              </div>
               </AccordionContent>
             </AccordionItem>
-          </Accordion>
+            </Accordion>
         ))}
     </div>
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-pink-600 text-transparent bg-clip-text">
-        Course Generator
-      </h1>
-
-      <div className="mb-6">
-        <div className="flex flex-col gap-3">
-          <div className="relative">
-            <textarea
+    <div className="container mx-auto p-3 max-w-4xl">
+      <div className="">
+        <div className="m-2 lg:w-[50vw] md:[w-[70vw]] flex flex-row items-center justify-center border-2 rounded-xl p-1 border-black dark:border-white bg-white  dark:bg-gray-800 shadow-md">
+         
+            <input
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="w-full p-4 h-24 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter a topic to generate a course structure..."
+              className="flex-1  px-2 py-1 focus:outline-none dark:bg-gray-800 dark:text-white"
+              placeholder={cpholder}
             />
-          </div>
+          
 
           <button
             onClick={handleGenerate}
+            onSubmit={handleGenerate}
             disabled={isLoading || !prompt.trim()}
             className="bg-gradient-to-r from-indigo-600 to-pink-600 text-white px-5 py-3 rounded-lg hover:opacity-90 transition-all duration-200 font-medium flex items-center justify-center disabled:opacity-50"
           >
@@ -201,7 +221,7 @@ export default function Home() {
                 Generating Course...
               </>
             ) : (
-              "Generate Course Structure"
+              <SendHorizonal className="w-4 h-6" />
             )}
           </button>
         </div>
@@ -214,7 +234,7 @@ export default function Home() {
       )}
 
       {/* Modal for streaming course generation - add ref to DialogContent */}
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+      <Dialog  open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent
           className="max-w-3xl max-h-[90vh] overflow-y-auto"
           ref={modalContentRef}
@@ -243,7 +263,7 @@ export default function Home() {
               <div className="flex justify-center items-center py-3 bg-amber-50 rounded-lg mb-4">
                 <Loader2 className="h-5 w-5 animate-spin text-amber-600 mr-2" />
                 <span className="text-amber-700">
-                  Saving your course to the database...
+                  Saving your course 
                 </span>
               </div>
             )}
@@ -254,8 +274,8 @@ export default function Home() {
       </Dialog>
 
       {!isLoading && !generation && (
-        <div className="flex flex-col items-center justify-center h-64 text-center border border-muted rounded-lg p-4">
-          <p className="text-gray-500 mb-4">
+        <div className="flex flex-col items-center justify-center h-64 text-center border border-muted rounded-lg">
+          <p className="text-gray-500 ">
             Enter a topic and click &quot;Generate Course Structure&quot; to
             create a course outline
           </p>

@@ -5,7 +5,7 @@
   "scripts": {
     "generate": "npx prisma generate",
     "deploy": "npx prisma migrate deploy",
-    "dev": "npm run generate && next dev --turbopack",
+    "dev": "next dev --turbopack",
     "build": "npm run generate && next build",
     "start": "next start",
     "lint": "next lint",

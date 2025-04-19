@@ -190,7 +190,7 @@ export async function generate(input: string) {
   (async () => {
     const { partialObjectStream } = streamObject({
       model: openai('gpt-4.1-mini'),
-      system: 'You generate course content with modules and lessons based on the user input. you never create empty modules or lessons',
+      system: "Create a structured course outline based on user input. Include fully developed modules and lessons, covering beginner to advanced levels unless specified otherwise. Take the user's topic and requirements. Build distinct modules with at least one detailed, relevant lesson each. Ensure content is informative, coherent, and logically organized. Avoid empty or underdeveloped entries. Return a clear, hierarchical outline listing modules and their lessons.",
       prompt: input,
       schema: courseSchema,
     });

@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CourseGenie",
+  title: "Course.ai",
   description: "The Ultimate Learning Tool",
 };
 

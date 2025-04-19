@@ -12,6 +12,7 @@ import { useEffect, useState, useContext, createContext } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { Pen } from "lucide-react";
+import VideoIdInput from "@/components/videoidinput";
 
 interface Lesson {
   id: string;
@@ -109,6 +110,19 @@ export default function Lab() {
         }))
       };
       setCourse(formattedCourse);
+
+      // Select the first lesson by default
+    const firstlesson = courseData.modules?.[0]?.lessons?.[0];
+      if (firstlesson) {
+        setActiveLesson({
+          id: firstlesson.id,
+          name: firstlesson.name,
+          contenturl: firstlesson.contenturl || "",
+          lesson_description: firstlesson.description || "",
+          search_term: firstlesson.searchterm || "",
+        });
+       
+      }
     });
   }, [courseid]);
 
@@ -185,16 +199,7 @@ export default function Lab() {
                           </Link>
 
                           <div className="flex flex-col sm:flex-row gap-3 w-full ">
-                            <div className="relative w-full">
-                              <input
-                                type="text"
-                                name="videoId"
-                                placeholder="YouTube video ID (e.g., dQw4w9WgXcQ)"
-                                className="w-full px-4 py-3 text-gray-700 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white border border-gray-300"
-                                required
-                              />
-                             
-                            </div>
+                            <VideoIdInput />
                            
                             <button
                               type="submit"
