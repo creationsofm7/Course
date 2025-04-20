@@ -180,6 +180,7 @@ const courseSchema = z.object({
   description: z.string().describe("Description of the course in 50 to 100 words"),
 });
 
+
 export async function generate(input: string) {
   'use server';
 
