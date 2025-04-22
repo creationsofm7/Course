@@ -1,4 +1,4 @@
-# Course.ai
+# Course.ai <a href="https://courseai.vercel.app/signin" target="_blank" align="right">🔗 Visit the website here</a>
 
 Course.ai is the ultimate learning tool designed to help users create, manage, and share courses effortlessly. It leverages modern web technologies and integrates with OpenAI to provide a seamless and interactive learning experience.
 
