@@ -30,7 +30,7 @@ export default async function RootLayout({
   });
   
   // Get the user's theme preference from session
-  const initialTheme = session?.user?.DarkMode ? "dark" : "light";
+  const initialTheme = session?.user?.DarkMode ? "light" : "dark";
   
   return (
     <html lang="en">
