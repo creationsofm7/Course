@@ -131,7 +131,10 @@ export default function Lab() {
       <LessonContext.Provider value={{ activeLesson, setActiveLesson }}>
         <div className="fixed top-0 left-0 right-0 flex items-center px-6 py-4 w-full bg-black shadow-sm z-10 text-white gap-2">
           <Link href="/">
-            <h1 className="text-xl font-bold ">CookLab</h1>
+            <h1 className="text-xl font-bold ">
+              CookLab
+              <sup className="ml-1 text-xs font-normal align-super text-yellow-400">BETA</sup>
+            </h1>
           </Link>
           <span className="text-xl font-normal">|</span>
           <h1 className="text-xl font-light">{course.name}</h1>
