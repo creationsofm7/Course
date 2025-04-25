@@ -47,12 +47,6 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
 export async function middleware(request: NextRequest) {
-  // const { data: session } = await betterFetch<Session>("/api/auth/get-session", {
-  // 	baseURL: request.nextUrl.origin,
-  // 	headers: {
-  // 		cookie: request.headers.get("cookie") || "", // Forward the cookies from the request
-  // 	},
-  // });
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -65,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/create", "/cooklab/:path*"], // Protect all course routes
+  matcher: ["/cooklab/:path*", "/apitest"], // Protect all course routes
 };

@@ -38,7 +38,7 @@ export default function SignInPage() {
           console.log("Requesting...");
         },
         onSuccess: () => {
-          console.log("Success");
+  
           router.push("/");
         },
         onError: (error) => {

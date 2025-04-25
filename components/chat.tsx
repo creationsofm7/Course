@@ -136,13 +136,13 @@ export default function Home() {
   const renderCourseStructure = () => (
     <div className="space-y-4">
       <div className="p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-lg">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-gray-900  mb-2">
           {generation?.name}
         </h2>
         <p className="text-gray-700">{generation?.description}</p>
       </div>
 
-      <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">
+      <h3 className="text-xl font-semibold text-gray-800 dark:text-white  mt-6 mb-3">
         Course Modules
       </h3>
       {generation?.modules &&
@@ -159,7 +159,7 @@ export default function Home() {
               </AccordionTrigger>
               <AccordionContent className="bg-background/80">
               <div className="px-4 pb-3">
-                <h4 className="font-medium text-gray-700 mb-2">Lessons:</h4>
+                <h4 className="font-medium text-gray-700 dark:text-white  mb-2">Lessons:</h4>
                 <ul className="space-y-3">
                 {module.lessons &&
                   module.lessons.map(
@@ -168,11 +168,11 @@ export default function Home() {
                     key={lessonIndex}
                     className="bg-white p-3 rounded-md border border-gray-100 shadow-sm"
                     >
-                    <h5 className="font-medium text-gray-900">
+                    <h5 className="font-medium text-gray-900  ">
                       {lesson.name}
                     </h5>
                     {lesson.description && (
-                      <p className="text-gray-600 text-sm mt-1">
+                      <p className="text-gray-600  text-sm mt-1">
                       {lesson.description}
                       </p>
                     )}
