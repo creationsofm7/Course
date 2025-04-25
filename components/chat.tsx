@@ -204,6 +204,7 @@ export default function Home() {
               onChange={(e) => setPrompt(e.target.value)}
               className="flex-1  px-2 py-1 focus:outline-none dark:bg-gray-800 dark:text-white"
               placeholder={cpholder}
+              autoFocus
             />
           
 
