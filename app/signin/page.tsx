@@ -18,8 +18,8 @@ export default function SignInPage() {
           console.log("Requesting...");
         },
         onSuccess: () => {
-          console.log("Success");
-          router.push("/");
+          
+          window.location.href = "/";
         },
         onError: (error) => {
           console.log("Error", error);
@@ -39,7 +39,7 @@ export default function SignInPage() {
         },
         onSuccess: () => {
   
-          router.push("/");
+          window.location.href = "/";
         },
         onError: (error) => {
           console.log("Error", error);
