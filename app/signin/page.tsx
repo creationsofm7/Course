@@ -1,12 +1,10 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 // import EmailForm from "./otpform";
 
 export default function SignInPage() {
-  const router = useRouter();
 
   const handleSignInWithGithub = async () => {
     await authClient.signIn.social(
