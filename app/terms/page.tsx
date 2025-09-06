@@ -19,7 +19,7 @@ export default function TermsPage() {
           </section>
           <section className="rounded-xl border border-white/10 p-6">
             <h2 className="text-xl font-medium mb-2">Limitation of Liability</h2>
-            <p className="text-white/70">Course.ai is provided "as is" without warranties. We are not liable for damages arising from use of the service.</p>
+            <p className="text-white/70">Course.ai is provided &quot;as is&quot; without warranties. We are not liable for damages arising from use of the service.</p>
           </section>
           <section className="rounded-xl border border-white/10 p-6">
             <h2 className="text-xl font-medium mb-2">Contact</h2>

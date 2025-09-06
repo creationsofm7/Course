@@ -345,22 +345,22 @@ export default function Home() {
   const [cpholder, setCpholder] = useState<string>("Create a course on Control Systems");
 
 
-  const placeholders = [
-    "Create a course on AI in Healthcare",
-    "Generate a course outline for Web Development",
-    "Design a course on Data Science and Machine Learning",
-    "Outline a course on Digital Marketing Strategies",
-    "Create a course on Blockchain Technology",
-  ];
-
   useEffect(() => {
+    const placeholders = [
+      "Create a course on AI in Healthcare",
+      "Generate a course outline for Web Development",
+      "Design a course on Data Science and Machine Learning",
+      "Outline a course on Digital Marketing Strategies",
+      "Create a course on Blockchain Technology",
+    ];
+
     let current = 0;
     const interval = setInterval(() => {
       setCpholder(placeholders[current]);
       current = (current + 1) % placeholders.length;
     }, 5000);
     return () => clearInterval(interval);
-  }, [placeholders]);
+  }, []);
   // Effect to auto-scroll the modal content when generation updates
   useEffect(() => {
     if (modalContentRef.current && generation) {
