@@ -10,30 +10,34 @@ export default async function Settings() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center ">
-      <div className="p-8 bg-white rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Settings</h1>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6 py-16">
+      <div className="w-full max-w-xl border border-white/15 rounded-2xl p-8 md:p-10 bg-black/60 backdrop-blur-sm">
+        <h1 className="text-2xl md:text-3xl font-semibold mb-6">Settings</h1>
         {session ? (
           <>
-            <p className="text-gray-600 mb-4">Name: {session.user.name}</p>
-            <p className="text-gray-600 mb-4">Email: {session.user.email}</p>
-            <p className="text-gray-600 mb-4">
-              Dark Mode: {session.user.DarkMode ? "Enabled" : "Disabled"}
-            </p>
-         
-            <div className="flex flex-row items-center gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="rounded-lg border border-white/10 p-4">
+                <div className="text-white/60 text-xs uppercase tracking-wide mb-1">Name</div>
+                <div className="text-white/90 break-words">{session.user.name}</div>
+              </div>
+              <div className="rounded-lg border border-white/10 p-4">
+                <div className="text-white/60 text-xs uppercase tracking-wide mb-1">Email</div>
+                <div className="text-white/90 break-words">{session.user.email}</div>
+              </div>
+              <div className="rounded-lg border border-white/10 p-4">
+                <div className="text-white/60 text-xs uppercase tracking-wide mb-1">Theme</div>
+                <div className="text-white/90">{session.user.DarkMode ? "Light" : "Dark"}</div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
               <form action={changeTheme}>
                 <ThemeToggle />
               </form>
-              <div className="bg-blue-500 p-2 rounded-lg hover:bg-blue-600">
-                <SignoutButton />
-              </div>
+              <SignoutButton />
             </div>
           </>
         ) : (
-          <p className="text-gray-600 mb-4">
-            Please sign in to view your settings
-          </p>
+          <p className="text-white/60 mb-4">Please sign in to view your settings.</p>
         )}
       </div>
     </div>
